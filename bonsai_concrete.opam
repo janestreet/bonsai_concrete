@@ -17,15 +17,16 @@ depends: [
   "incr_select"
   "incremental"
   "ppx_jane"
+  "time_now"
   "virtual_dom"
-  "dune"        {>= "3.11.0"}
+  "dune"        {>= "3.17.0"}
 ]
 available: arch != "arm32" & arch != "x86_32"
 synopsis: "Shared dependencies of bonsai and incr_dom."
 description: "
 This repo contains shared dependencies between incr_dom and bonsai: ui_incr
   and ui_time_source. Respectively, these libraries are bonsai and incr_dom's
-  Incr.t and way of keeping track of time in a testable way. 
+  Incr.t and way of keeping track of time in a testable way.
 
   Both of these libraries are in their own repo (rather than in incr_dom's repo)
   as incr_dom's repo contains js_of_ocaml'able libraries, while both of these libraries
