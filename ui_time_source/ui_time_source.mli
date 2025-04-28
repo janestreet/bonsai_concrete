@@ -8,15 +8,17 @@ type t
 (** Creates a new clock starting at the specified time. *)
 val create : start:Time_ns.t -> t
 
-(** Pulls out the Incremental clock within the Bonsai clock. You should avoid
-    this function if possible; if the interface in this module does not have an
-    incremental function you need, then we can add it. *)
+(** Pulls out the Incremental clock within the Bonsai clock. You should avoid this
+    function if possible; if the interface in this module does not have an incremental
+    function you need, then we can add it. *)
 val incr_clock : t -> Incr.Clock.t
 
-(** Moves the current time forward by a time span; any alarms are enqueued instead of triggered. *)
+(** Moves the current time forward by a time span; any alarms are enqueued instead of
+    triggered. *)
 val advance_clock_by : t -> Time_ns.Span.t -> unit
 
-(** Moves the current time forward to a specific instant; any alarms are enqueued instead of triggered. *)
+(** Moves the current time forward to a specific instant; any alarms are enqueued instead
+    of triggered. *)
 val advance_clock : t -> to_:Time_ns.t -> unit
 
 (** The current time. *)
@@ -41,16 +43,15 @@ val sleep : t -> Time_ns.Span.t -> unit Effect.t
 val wait_after_display : t -> unit Effect.t
 
 module Private : sig
-  (** Users should not need to call this function, since it is managed by
-      Bonsai. Triggers any alarms that have been enqueued. *)
+  (** Users should not need to call this function, since it is managed by Bonsai. Triggers
+      any alarms that have been enqueued. *)
   val flush : t -> unit
 
-  (** Users should not need to call this function, since it is managed by
-      Bonsai. Triggers any [wait_after_display] effects that are waiting to run. *)
+  (** Users should not need to call this function, since it is managed by Bonsai. Triggers
+      any [wait_after_display] effects that are waiting to run. *)
   val trigger_after_display : t -> unit
 
-  (** Users should not need to call this function, since it is managed by
-      Bonsai. Says whether there are any [wait_after_display] effects that are
-      waiting to run. *)
+  (** Users should not need to call this function, since it is managed by Bonsai. Says
+      whether there are any [wait_after_display] effects that are waiting to run. *)
   val has_after_display_events : t -> bool
 end
