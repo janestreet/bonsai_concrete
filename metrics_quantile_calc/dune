@@ -1,5 +1,5 @@
 (library
- (name bonsai_metrics_quantile_calc)
+ (name ui_metrics_quantile_calc)
  (public_name bonsai_concrete.metrics_quantile_calc)
  (libraries core prometheus_instrumentation_collector_histogram_buckets)
  (preprocess
