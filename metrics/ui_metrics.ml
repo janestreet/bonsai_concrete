@@ -471,7 +471,7 @@ module For_debugging_histograms = struct
     ?exclude_timings_lt
     (t : Timing_histograms.Tracker.t)
     =
-    let module Quantile_calc = Bonsai_metrics_quantile_calc in
+    let module Quantile_calc = Ui_metrics_quantile_calc in
     let range_midpoint (a, b) =
       Time_ns.Span.(if b = max_value_representable then a else (a + b) / 2.)
     in

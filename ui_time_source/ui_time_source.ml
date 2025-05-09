@@ -20,7 +20,7 @@ let invariant t =
   let incr_now = Incr.Clock.now t.incr in
   if not (Time_ns.equal wheel_now incr_now)
   then (
-    Bonsai_metrics.Counters.observe Ui_time_source_and_async_time_source_out_of_sync;
+    Ui_metrics.Counters.observe Ui_time_source_and_async_time_source_out_of_sync;
     eprint_s
       [%message
         "BUG: timing wheel and incremental clock are out of sync"
@@ -65,7 +65,7 @@ let advance_clock t ~to_ =
   if Time_ns.( >= ) to_ (now t)
   then t.advance_to <- Some to_
   else (
-    Bonsai_metrics.Counters.observe Ui_time_source_went_backwards;
+    Ui_metrics.Counters.observe Ui_time_source_went_backwards;
     eprint_s
       [%message
         [%here]
