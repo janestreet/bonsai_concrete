@@ -109,6 +109,9 @@ module Timing_histograms = struct
         | Bonsai_start_of_frame_to_start_of_next_frame
         | Bonsai_end_of_frame_to_start_of_next_frame
         | Metrics_count_dom_nodes
+        | Bonsai_graph_application
+        | Bonsai_preprocess
+        | Bonsai_gather
       [@@deriving string, sexp_of, equal, compare, hash, enumerate]
     end
 
@@ -133,6 +136,9 @@ module Timing_histograms = struct
       | Input.Bonsai_apply_action
       | Telemetry_idle_callback
       | Bonsai_whole_frame_loop
+      | Bonsai_graph_application
+      | Bonsai_preprocess
+      | Bonsai_gather
       | Bonsai_update_visibility
       | Bonsai_diff_vdom
       | Bonsai_patch_vdom
@@ -184,6 +190,9 @@ module Timing_histograms = struct
           if am_running_test
           then bg_buckets_for_short_frequent_things
           else fg_buckets_for_short_frequent_things)
+      | Input Bonsai_graph_application
+      | Input Bonsai_preprocess
+      | Input Bonsai_gather
       | Input Browser_long_task ->
         Histogram_bucket_definitions.(
           if am_running_test
@@ -208,6 +217,9 @@ module Timing_histograms = struct
       | Input Bonsai_end_of_frame_to_start_of_next_frame
       | Input Metrics_count_dom_nodes ->
         Histogram_bucket_definitions.bg_buckets_for_short_frequent_things
+      | Input Bonsai_graph_application
+      | Input Bonsai_preprocess
+      | Input Bonsai_gather
       | Input Browser_long_task ->
         Histogram_bucket_definitions.bg_buckets_for_rare_long_things
     ;;

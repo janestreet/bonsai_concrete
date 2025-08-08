@@ -81,6 +81,9 @@ module Timing_histograms : sig
         | Bonsai_start_of_frame_to_start_of_next_frame
         | Bonsai_end_of_frame_to_start_of_next_frame
         | Metrics_count_dom_nodes
+        | Bonsai_graph_application
+        | Bonsai_preprocess
+        | Bonsai_gather
       [@@deriving string, sexp_of, equal, compare, enumerate]
     end
 

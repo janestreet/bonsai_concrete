@@ -14,7 +14,7 @@ open! Core
     Note that the [compare] and [equal] functions completely ignore the passed in
     comparison or equality function for ['a] and always use the standard comparison or
     equality function of whatever type ['a] actually represents (e.g. [Int.compare]). *)
-type 'a t [@@deriving compare, equal, sexp_of]
+type 'a t [@@deriving compare ~localize, equal ~localize, sexp_of]
 
 (** Describes the allowable types for bucket boundaries *)
 module Type : sig
