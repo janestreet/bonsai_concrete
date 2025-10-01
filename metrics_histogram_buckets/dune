@@ -3,4 +3,4 @@
  (public_name bonsai_concrete.metrics_histogram_buckets)
  (libraries core core_kernel.nonempty_list)
  (preprocess
-  (pps ppx_jane)))
+  (pps ppx_jane -require-template-extension)))

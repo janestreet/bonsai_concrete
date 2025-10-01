@@ -102,10 +102,10 @@ let wait_after_display t =
 module Private = struct
   let flush t =
     let handle_fired callback =
+      let effect_callback = Timing_wheel.Alarm.value t.timing_wheel callback in
       Effect.Expert.handle
-        (Effect.Private.Callback.respond_to
-           (Timing_wheel.Alarm.value t.timing_wheel callback)
-           ())
+        (Effect.Private.Callback.respond_to effect_callback ())
+        ~on_exn:(Effect.Private.Callback.on_exn effect_callback)
     in
     List.iter (Reversed_list.rev t.add_before_advance) ~f:(fun (at, callback) ->
       let (_ : _ Timing_wheel.Alarm.t) = Timing_wheel.add t.timing_wheel ~at callback in
@@ -125,7 +125,9 @@ module Private = struct
     let callbacks = t.wait_after_display_callbacks in
     t.wait_after_display_callbacks <- [];
     List.iter (Reversed_list.rev callbacks) ~f:(fun callback ->
-      Effect.Expert.handle (Effect.Private.Callback.respond_to callback ()))
+      Effect.Expert.handle
+        (Effect.Private.Callback.respond_to callback ())
+        ~on_exn:(Effect.Private.Callback.on_exn callback))
   ;;
 
   let has_after_display_events t =

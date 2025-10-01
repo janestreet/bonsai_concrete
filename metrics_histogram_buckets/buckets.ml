@@ -93,18 +93,22 @@ type 'a t =
       -> 'a t
 [@@deriving sexp_of]
 
-let comparisons (type a) (type_ : a Type.Not_float.t)
-  : (module Comparisons.S with type t = a)
+let%template comparisons (type a) (type_ : a Type.Not_float.t)
+  : ((module Comparisons.S with type t = a)[@mode local])
   =
   match type_ with
   | Int -> (module Int)
   | Time_ns_span -> (module Time_ns.Span)
 ;;
 
-let compare (type a) compare_inner (t1 : a t) (t2 : a t) =
+[%%template
+[@@@mode.default m = (local, global)]
+
+let compare (type a) compare_inner (t1 : a t @ m) (t2 : a t @ m) =
   match t1, t2 with
   | ( Float { boundaries_excluding_infinity = b1 }
-    , Float { boundaries_excluding_infinity = b2 } ) -> Array.Float.compare b1 b2
+    , Float { boundaries_excluding_infinity = b2 } ) ->
+    (Array.Float.compare [@mode m]) b1 b2
   | Float _, Immediate _ -> -1
   | Immediate _, Float _ -> 1
   | Immediate { type_ = k1; boundaries = b1 }, Immediate { type_ = k2; boundaries = b2 }
@@ -112,7 +116,7 @@ let compare (type a) compare_inner (t1 : a t) (t2 : a t) =
     (match Type.Not_float.compare compare_inner k1 k2 with
      | 0 ->
        let (module M) = comparisons k1 in
-       Array.compare M.compare b1 b2
+       (Array.compare [@mode m]) (M.compare [@mode m]) b1 b2
      | x -> x)
 ;;
 
@@ -122,8 +126,8 @@ let equal _equal_inner =
      To highlight this, we pass in [Nothing.unreachable_code]. If [compare] starts
      meaningfully using [compare_inner], this will stop compiling and we'll have to
      pass in whatever suits the new semantics of [compare_inner]. *)
-  Comparable.equal (compare Nothing.unreachable_code)
-;;
+  (Comparable.equal [@mode m]) ((compare [@mode m]) Nothing.unreachable_code)
+;;]
 
 let drop_infinity (type a) (t : a t) : a t =
   match t with
