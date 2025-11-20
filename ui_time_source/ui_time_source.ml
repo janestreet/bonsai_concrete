@@ -15,9 +15,9 @@ type t =
   }
 
 let invariant t =
-  (* This is only a soft invariant (it prints instead of raising) because it
-     probably isn't fatal if the two clocks are out of sync. We want to know
-     about it if they are, though. *)
+  (* This is only a soft invariant (it prints instead of raising) because it probably
+     isn't fatal if the two clocks are out of sync. We want to know about it if they are,
+     though. *)
   let wheel_now = Timing_wheel.now t.timing_wheel in
   let incr_now = Incr.Clock.now t.incr in
   if not (Time_ns.equal wheel_now incr_now)
