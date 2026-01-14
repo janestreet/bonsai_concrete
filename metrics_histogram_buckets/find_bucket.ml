@@ -1,7 +1,7 @@
 open Core
 
-(* We generate this function once per datatype because otherwise the comparisons won’t
-   get inlined, leading to pretty expensive float-array handling in the [float] case. *)
+(* We generate this function once per datatype because otherwise the comparisons won’t get
+   inlined, leading to pretty expensive float-array handling in the [float] case. *)
 (*$
   open Core
 
@@ -34,8 +34,8 @@ let[@zero_alloc] float arr value =
     if Float.( <= ) value arr.(i)
     then i
     else if i = last_index
-            (* In this case, we hit the infinity bucket (for which there is no [bucket_ends]
-               entry) *)
+            (* In this case, we hit the infinity bucket (for which there is no
+               [bucket_ends] entry) *)
     then i + 1
     else loop arr (i + 1) last_index value
   in
@@ -47,8 +47,8 @@ let[@zero_alloc] int arr value =
     if Int.( <= ) value arr.(i)
     then i
     else if i = last_index
-            (* In this case, we hit the infinity bucket (for which there is no [bucket_ends]
-               entry) *)
+            (* In this case, we hit the infinity bucket (for which there is no
+               [bucket_ends] entry) *)
     then i + 1
     else loop arr (i + 1) last_index value
   in
@@ -60,8 +60,8 @@ let[@zero_alloc] span arr value =
     if Time_ns.Span.( <= ) value arr.(i)
     then i
     else if i = last_index
-            (* In this case, we hit the infinity bucket (for which there is no [bucket_ends]
-               entry) *)
+            (* In this case, we hit the infinity bucket (for which there is no
+               [bucket_ends] entry) *)
     then i + 1
     else loop arr (i + 1) last_index value
   in
