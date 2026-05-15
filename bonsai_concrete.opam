@@ -22,7 +22,7 @@ depends: [
   "virtual_dom"
   "dune"        {>= "3.17.0"}
 ]
-available: arch != "arm32" & arch != "x86_32"
+available: arch != "x86_32"
 synopsis: "Shared dependencies of bonsai and incr_dom."
 description: "
 This repo contains shared dependencies between incr_dom and bonsai: ui_incr
