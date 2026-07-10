@@ -178,7 +178,7 @@ let validate_non_negative : 'a. 'a t -> unit Or_error.t =
     else Ok ()
 ;;
 
-let validate_allow_non_negative : 'a. 'a t -> 'a t Or_error.t =
+let%template validate_allow_non_negative : 'a. 'a t -> 'a t Or_error.t =
   fun (type a) (t_maybe_infinite : a t) : a t Or_error.t ->
   let not_nan =
     match t_maybe_infinite with
@@ -191,7 +191,9 @@ let validate_allow_non_negative : 'a. 'a t -> 'a t Or_error.t =
   let increasing =
     if match t_maybe_infinite with
        | Float { boundaries_excluding_infinity } ->
-         Array.is_sorted_strictly ~compare:[%compare: float] boundaries_excluding_infinity
+         Array.is_sorted_strictly
+           ~compare:([%compare: float] [@mode local])
+           boundaries_excluding_infinity
        | Immediate { type_; boundaries } ->
          let (module M) = comparisons type_ in
          Array.is_sorted_strictly ~compare:M.compare boundaries
